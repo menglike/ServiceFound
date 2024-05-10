@@ -1,0 +1,126 @@
+{
+  "type": "page",
+  "title": "端口列表",
+  "remark": null,
+  "name": "page-demo",
+  "toolbar": [
+
+  ],
+  "body": [
+    {
+      "type": "crud",
+      "name": "sample",
+      "api": "/port_list",
+      "perPage": 10,
+      "autoGenerateFilter": true,
+      "bulkActions": [
+      ],
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "bodyClassName": "panel-default",
+      "headerToolbar": [
+      "reload"
+      ],
+      "footerToolbar": [
+        "statistics",
+        "switch-per-page",
+        "pagination",
+        "export-csv",
+        {
+          "type": "tpl",
+          "tpl": "当前共有 ${count} 条数据",
+          "className": "v-middle"
+        }
+      ],
+      "columns": [
+        {
+          "name": "ip",
+          "label": "IP",
+          "searchable": {
+            "type": "select",
+            "source": "/port_options?type=ip",
+            "name": "ip",
+            "searchable": true
+          }
+        },
+        {
+          "name": "port",
+          "label": "端口",
+          "searchable": {
+            "type": "select",
+            "source": "/port_options?type=port",
+            "name": "port",
+            "searchable": true
+          }
+        },
+
+        {
+          "name": "service",
+          "label": "服务",
+          "searchable": {
+            "type": "select",
+            "source": "/port_options?type=service",
+            "name": "service",
+            "searchable": true
+          }
+        },
+        {
+          "name": "product",
+          "label": "软件名称",
+          "searchable": {
+            "type": "select",
+            "source": "/port_options?type=product",
+            "name": "product",
+            "searchable": true
+          }
+        },
+        {
+          "name": "version",
+          "label": "版本",
+         "searchable": {
+            "type": "select",
+            "source": "/port_options?type=version",
+            "name": "version",
+            "searchable": true
+          }
+        },
+        {
+          "label": "状态",
+          "name": "status",
+          
+          "searchable": {
+            "type":"select",
+            "name":"status",
+            "options": [
+              {"label":"开放中","value":"open"},
+              {"label":"已关闭","value":"down"}
+            ]
+          }
+        },
+        {
+          "label": "备注",
+          "name": "remark"
+        },
+        {
+          "type": "static-date",
+          "name": "create_time",
+          "label": "创建日期",
+          "format": "YYYY-MM-DD HH:mm:ss"
+        },
+        {
+          "type": "static-date",
+          "name": "update_time",
+          "label": "巡检日期",
+          "format":"YYYY-MM-DD HH:mm:ss"
+        }
+
+
+
+
+      ]
+    }
+  ]
+}

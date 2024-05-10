@@ -1,0 +1,229 @@
+{
+  "type": "page",
+  "title": "IP列表",
+  "remark": null,
+  "name": "page-demo",
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增IP",
+      "icon": "fa fa-plus pull-left",
+      "dialog": {
+        "title": "IP",
+        "size": "lg",
+        "body": {
+          "type": "form",
+          "api": {
+            "method": "post",
+            "url": "/ip_add",
+            "dataType": "form"
+          },
+          "body": [
+            {
+              "type": "input-text",
+              "name": "ip",
+              "required": true,
+              "placeholder": "请输入ip地址",
+              "label": "ip地址"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": [
+    {
+      "type": "crud",
+      "name": "sample",
+      "api": "/ip_list_api",
+      "perPage": 10,
+      "autoGenerateFilter": true,
+      
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "bodyClassName": "panel-default",
+      "headerToolbar": [
+        "reload",
+        "bulkActions"
+      ],
+      "syncLocation": false,
+      "bulkActions": [
+        {
+            "label": "批量启动",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "确认批量启动?",
+                "body": {
+                    "type": "form",
+                    "api": "/startall",
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "ids"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "label": "批量停用",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "确认批量停用？",
+                "body": {
+                    "type": "form",
+                    "api": "/stopall",
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "ids"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "label": "批量移除",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "确认批量移除？",
+                "body": {
+                    "type": "form",
+                    "api": "/delall",
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "ids"
+                        }
+                    ]
+                }
+            }
+        }
+       
+    ],
+    
+      "footerToolbar": [
+        "statistics",
+        "switch-per-page",
+        "pagination",
+        "export-csv",
+        {
+          "type": "tpl",
+          "tpl": "当前共有 ${count} 条数据",
+          "className": "v-middle"
+        }
+      ],
+      "columns": [
+        
+        {
+          "name": "ip",
+          "label": "ip地址",
+          "searchable": {
+            "type": "select",
+            "source": "/port_options?type=ip",
+            "name": "ip",
+            "searchable": true
+          }
+        },
+        
+        {
+          "type": "static-date",
+          "name": "create_time",
+          "label": "创建日期",
+          "format": "YYYY-MM-DD HH:mm:ss"
+        },
+        
+        {
+          "label": "状态",
+          "type": "mapping",
+          "name": "status",
+          "map": {
+            "1": "<span class='label label-info'>使用中</span>",
+            "-1": "<span class='label label-success'>已停用</span>"
+          }
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button-group",
+              "buttons": [
+                {
+                  "type": "button",
+                  "label": "编辑",
+                  "level": "info",
+                  "actionType": "dialog",
+                  "visibleOn": "this.status==-1",
+                  "dialog": {
+                    "title": "IP",
+                    "size": "lg",
+                    "body": {
+                      "type": "form",
+                      "api": {
+                        "method": "post",
+                        "url": "/ip_edit",
+                        "dataType": "form"
+                      },
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "ip",
+                          "required": true,
+                          "placeholder": "请输入IP地址",
+                          "label": "ip地址"
+                          
+                        },
+                        
+                        {
+                          "type": "hidden",
+                          "name": "id",
+                          "value": "${id}"
+                        }
+                      ]
+                    }
+                  }
+
+                },
+                {
+                  "type": "button",
+                  "label": "停用",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要停用IP<font color='red'>  ${ip}</font> ?",
+                  "api": "get:/ip_stop?id=${id}",
+                  "visibleOn": "this.status==1"
+                },
+                {
+                  "type": "button",
+                  "label": "启用",
+                  "level": "success",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要启用IP<font color='red'>  ${ip}</font> ?",
+                  "api": "get:/ip_start?id=${id}",
+                  "visibleOn": "this.status==-1"
+                },
+                {
+                  "type": "button",
+                  "label": "移除",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要移除IP<font color='red'>  ${ip}</font> ?",
+                  "api": "get:/ip_del?id=${id}",
+                  "visibleOn": "this.status==-1"
+                }
+              ]
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
+        }
+      ]
+    }
+  ]
+}

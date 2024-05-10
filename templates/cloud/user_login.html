@@ -1,0 +1,68 @@
+{% extends './base.html' %}
+
+{% block main %}
+
+<script type="text/javascript">
+    (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisJSON = {
+            type: 'page',
+            title: '',
+            cssVars: {
+                "--borderColor": "#ebd8d8"
+            },
+            body: {
+                "type": "container",
+                "style": {
+                    "width": "500px",
+                    "margin-left": "30%",
+                    "margin-top": "8%"
+                },
+                "body": [
+                    {
+                        "type": "form",
+                        "title": "",
+                        "mode": "horizontal",
+
+                        api: '/login',
+                        redirect: "/index",
+                        "horizontal": {
+                            "left": 3,
+                            "right": 6,
+                            // "offset": 20,
+
+                        },
+                        "body": [
+                            {
+                                type: "tpl",
+                                tpl: "<img src='/static/images/logo2.png' style='margin-top:10%;margin-left:25%;margin-bottom:10%;width:200px;'>",
+                                className: "m-t-xxl padder-lg"
+                            },
+                            {
+                                "type": "input-text",
+                                "name": "username",
+                                "label": "账户",
+                                "required": true,
+
+                            },
+                            {
+                                "type": "input-password",
+                                "name": "password",
+                                "label": "密码",
+                                "required": true
+                            },
+
+
+                        ]
+                    }
+                ]
+            }
+
+
+        };
+        let amisScoped = amis.embed('#root', amisJSON, {});
+    })();
+</script>
+
+{% endblock %}
